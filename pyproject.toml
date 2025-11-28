@@ -1,0 +1,40 @@
+[tool.poetry]
+name = "disk-health-reporter"
+version = "0.1.0"
+description = "CLI tool to collect and email S.M.A.R.T. statistics from block devices"
+authors = ["gavxn <gavxn@zanidrak.com>"]
+readme = "README.md"
+packages = [{include = "disk_health_reporter"}]
+
+[tool.poetry.dependencies]
+python = "^3.14"
+jinja2 = "^3.1.2"
+rich = "^13.3.2"
+
+[tool.poetry.group.dev.dependencies]
+black = "^25.11.0"
+isort = "^7.0.0"
+flake8 = "^7.3.0"
+
+[tool.poetry.scripts]
+disk-health-reporter = "disk_health_reporter.cli:main"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.black]
+line-length = 88
+target-version = ['py314']
+include = '\.pyi?$'
+exclude = '''
+/(
+  | \.git
+  | \.venv
+  | dist
+)/
+'''
+
+[tool.isort]
+profile = "black"
+line_length = 88
