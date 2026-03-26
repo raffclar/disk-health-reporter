@@ -1,40 +1,41 @@
-[tool.poetry]
+[project]
 name = "disk-health-reporter"
 version = "0.1.0"
 description = "CLI tool to collect and email S.M.A.R.T. statistics from block devices"
-authors = ["gavxn <gavxn@zanidrak.com>"]
 readme = "README.md"
-packages = [{include = "disk_health_reporter"}]
+requires-python = ">=3.10"
+authors = [
+    { name = "gavxn", email = "gavxn@zanidrak.com" }
+]
+dependencies = [
+    "jinja2>=3.1.2",
+    "rich>=13.3.2",
+]
 
-[tool.poetry.dependencies]
-python = "^3.14"
-jinja2 = "^3.1.2"
-rich = "^13.3.2"
-
-[tool.poetry.group.dev.dependencies]
-black = "^25.11.0"
-isort = "^7.0.0"
-flake8 = "^7.3.0"
-
-[tool.poetry.scripts]
+[project.scripts]
 disk-health-reporter = "disk_health_reporter.cli:main"
 
 [build-system]
-requires = ["poetry-core"]
-build-backend = "poetry.core.masonry.api"
+requires = ["hatchling"]
+build-backend = "hatchling.build"
 
-[tool.black]
+[tool.hatch.build.targets.wheel]
+packages = ["disk_health_reporter"]
+
+[tool.ruff]
 line-length = 88
-target-version = ['py314']
-include = '\.pyi?$'
-exclude = '''
-/(
-  | \.git
-  | \.venv
-  | dist
-)/
-'''
+target-version = "py314"
 
-[tool.isort]
-profile = "black"
-line_length = 88
+[tool.ruff.lint]
+select = ["E", "F", "W", "I"]
+ignore = ["E203", "E501"]
+
+[tool.ruff.lint.isort]
+combine-as-imports = true
+force-single-line = false
+known-first-party = ["disk_health_reporter"]
+
+[dependency-groups]
+dev = [
+    "ruff>=0.15.8",
+]

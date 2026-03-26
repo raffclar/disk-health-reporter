@@ -4,29 +4,26 @@ A CLI tool that runs smartctl on all block devices, collects S.M.A.R.T. statisti
 
 ## Installation
 
-This package uses Poetry for dependency management. To install:
+This package uses `uv` for dependency management. To install:
 
 ```bash
-# Install Poetry if you don't have it
-pip install poetry
-
-# Install the package
-poetry install
+# Install the package and dependencies
+uv sync
 ```
 
 ## Usage
 
 ```bash
 # Basic usage
-disk-health-reporter --email admin@example.com
+uv run disk-health-reporter --email admin@example.com
 
 # Using a specific SMTP server with authentication
-disk-health-reporter --email admin@example.com --smtp-server smtp.example.com --smtp-port 587 --smtp-user username --smtp-pass password --use-tls
+uv run disk-health-reporter --email admin@example.com --smtp-server smtp.example.com --smtp-port 587 --smtp-user username --smtp-pass password --use-tls
 ```
 
 ## Requirements
 
-- Python 3.14+
+- Python 3.10+
 - smartmontools (for the smartctl command)
 - superuser access (to run smartctl)
 
