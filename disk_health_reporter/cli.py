@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 
-import sys
 import argparse
 import os
+import sys
 
 from rich.console import Console
 from rich.panel import Panel

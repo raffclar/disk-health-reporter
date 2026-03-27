@@ -27,7 +27,7 @@ def get_block_devices() -> List[str]:
             )
         except subprocess.CalledProcessError as e:
             raise RuntimeError(f"Failed to list block devices: {e.stderr.strip() or e}")
-        
+
         block_devices = result.stdout.strip().split("\n")
 
         if len(block_devices) == 0:
