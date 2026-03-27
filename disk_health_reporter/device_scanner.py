@@ -38,7 +38,7 @@ def get_block_devices() -> List[str]:
                 if not any(
                     device_name.startswith(prefix) for prefix in ["loop", "ram"]
                 ):
-                    devices.append("/dev/{device_name}")
+                    devices.append(f"/dev/{device_name}")
         return devices
     else:
         raise RuntimeError("The /dev directory does not exist")
