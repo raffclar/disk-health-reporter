@@ -24,8 +24,8 @@ uv run disk-health-reporter --email admin@example.com --smtp-server smtp.example
 ## Requirements
 
 - Python 3.10+
-- smartmontools (for the smartctl command)
-- superuser access (to run smartctl)
+- smartmontools (for the `smartctl` command)
+- Superuser access (root on Linux, Administrator on Windows). The tool will check for these privileges upon startup and exit with an error if they are missing.
 
 ## Options
 
@@ -36,3 +36,27 @@ uv run disk-health-reporter --email admin@example.com --smtp-server smtp.example
 - `--smtp-user, -u`: SMTP username for authentication
 - `--smtp-pass`: SMTP password for authentication
 - `--use-tls`: Use TLS for SMTP connection
+
+## Automation
+
+To run this tool every day at midnight, you can use a `cron` job.
+
+1.  Make sure you have installed the tool and its dependencies:
+    ```bash
+    uv sync
+    ```
+
+2.  Ensure `run_daily.sh` is executable:
+    ```bash
+    chmod +x run_daily.sh
+    ```
+
+3.  Open your crontab as root (since `smartctl` requires root permissions):
+    ```bash
+    sudo crontab -e
+    ```
+
+4.  Add the following line to run the script every day at 00:00. Make sure to provide the full path to the project directory and your email address:
+    ```bash
+    0 0 * * * /path/to/disk-health-reporter/run_daily.sh your-email@example.com
+    ```

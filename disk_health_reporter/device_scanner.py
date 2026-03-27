@@ -18,14 +18,16 @@ def get_block_devices() -> List[str]:
     devices = []
 
     if os.path.exists("/dev"):
-        result = subprocess.run(
-            ["lsblk", "-d", "-o", "NAME", "-n"],
-            capture_output=True,
-            text=True,
-            check=True,
-        )
-        if result.returncode != 0:
-            raise RuntimeError(f"Failed to list block devices: {result.stderr}")
+        try:
+            result = subprocess.run(
+                ["lsblk", "-d", "-o", "NAME", "-n"],
+                capture_output=True,
+                text=True,
+                check=True,
+            )
+        except subprocess.CalledProcessError as e:
+            raise RuntimeError(f"Failed to list block devices: {e.stderr.strip() or e}")
+        
         block_devices = result.stdout.strip().split("\n")
 
         if len(block_devices) == 0:

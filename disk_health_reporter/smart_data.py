@@ -28,7 +28,9 @@ def get_smart_data(device_path):
             ["smartctl", "-a", "-j", device_path], capture_output=True, text=True, timeout=60,
         )
         if result.returncode != 0:
-            raise RuntimeError("smartctl returned non-zero exit code")
+            if "Permission denied" in result.stderr or "Operation not permitted" in result.stderr:
+                raise RuntimeError(f"Permission denied running smartctl on {device_path}. Make sure you are running as root.")
+            raise RuntimeError(f"smartctl returned non-zero exit code: {result.stderr.strip()}")
         data = json.loads(result.stdout)
         return format_smart_data_json(data)
     except subprocess.SubprocessError as error:

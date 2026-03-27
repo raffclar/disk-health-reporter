@@ -1,7 +1,8 @@
 #!/usr/bin/env python3
 
-import argparse
 import sys
+import argparse
+import os
 
 from rich.console import Console
 from rich.panel import Panel
@@ -11,6 +12,18 @@ from disk_health_reporter.email_sender import send_email_report
 from disk_health_reporter.smart_data import get_smart_data
 
 console = Console()
+
+
+def is_root():
+    """Check if the current user has superuser privileges."""
+    if hasattr(os, "geteuid"):
+        return os.geteuid() == 0
+    # Fallback for Windows or other systems where geteuid is not available
+    try:
+        import ctypes
+        return ctypes.windll.shell32.IsUserAnAdmin() != 0
+    except (AttributeError, ImportError):
+        return False
 
 
 def main():
@@ -56,6 +69,10 @@ def main():
     )
 
     args = parser.parse_args()
+
+    if not is_root():
+        console.print("[bold red]Error: This tool requires superuser (root/administrator) privileges to run smartctl.[/bold red]")
+        return 1
 
     try:
         console.print(
