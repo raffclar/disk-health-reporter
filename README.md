@@ -2,6 +2,9 @@
 
 A CLI tool that runs smartctl on all block devices, collects S.M.A.R.T. statistics, and emails them as a report with HTML tables.
 
+<img width="532" height="532" alt="image" src="https://github.com/user-attachments/assets/3616ee3f-7eac-4443-bf8e-258c32e38938" />
+
+
 ## Installation
 
 This package uses `uv` for dependency management. To install:
